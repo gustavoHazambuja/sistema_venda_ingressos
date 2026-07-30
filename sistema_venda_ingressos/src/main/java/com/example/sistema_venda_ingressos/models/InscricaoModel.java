@@ -33,8 +33,8 @@ public class InscricaoModel {
     private UsuarioModel usuario;
 
     @ManyToOne
-    @JoinColumn(name = "ingresso_id")
-    private IngressoModel ingresso;
+    @JoinColumn(name = "evento_id")
+    private EventoModel evento;
 
     private LocalDateTime dataInscricao;
 
