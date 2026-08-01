@@ -7,14 +7,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.sistema_venda_ingressos.dtos.EventoRequestDTO;
-import com.example.sistema_venda_ingressos.dtos.EventoResponseDTO;
-import com.example.sistema_venda_ingressos.dtos.IngressoResponseDTO;
+import com.example.sistema_venda_ingressos.exceptions.RecursoNaoEncontradoException;
 import com.example.sistema_venda_ingressos.models.EventoModel;
-import com.example.sistema_venda_ingressos.models.IngressoModel;
+import com.example.sistema_venda_ingressos.models.dtos.EventoAtualizacaoRequestDTO;
+import com.example.sistema_venda_ingressos.models.dtos.EventoRequestDTO;
+import com.example.sistema_venda_ingressos.models.dtos.EventoResponseDTO;
+import com.example.sistema_venda_ingressos.models.dtos.IngressoResponseDTO;
 import com.example.sistema_venda_ingressos.repositories.EventoRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class EventoService {
@@ -51,7 +50,7 @@ public class EventoService {
     public EventoResponseDTO buscarPorId(Long id) {
 
         EventoModel evento = eventoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         return toResponseDTO(evento);
     }
@@ -63,10 +62,10 @@ public class EventoService {
     }
 
     @Transactional
-    public EventoResponseDTO atualizarEvento(Long id, EventoRequestDTO novoEvento) {
+    public EventoResponseDTO atualizarEvento(Long id, EventoAtualizacaoRequestDTO novoEvento) {
 
         EventoModel evento = eventoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         evento.setNome(novoEvento.nome());
         evento.setLocal(novoEvento.local());
@@ -80,7 +79,7 @@ public class EventoService {
     public void deletarEvento(Long id){
 
         EventoModel evento = eventoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         eventoRepository.delete(evento);
     }

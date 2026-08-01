@@ -4,21 +4,23 @@ import java.time.LocalDateTime;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import com.example.sistema_venda_ingressos.dtos.InscricaoRequestDTO;
-import com.example.sistema_venda_ingressos.dtos.InscricaoResponseDTO;
+import com.example.sistema_venda_ingressos.exceptions.RecursoNaoEncontradoException;
 import com.example.sistema_venda_ingressos.exceptions.RegraDeNegocioException;
 import com.example.sistema_venda_ingressos.models.IngressoModel;
 import com.example.sistema_venda_ingressos.models.InscricaoModel;
 import com.example.sistema_venda_ingressos.models.StatusInscricao;
 import com.example.sistema_venda_ingressos.models.UsuarioModel;
+import com.example.sistema_venda_ingressos.models.dtos.InscricaoRequestDTO;
+import com.example.sistema_venda_ingressos.models.dtos.InscricaoResponseDTO;
 import com.example.sistema_venda_ingressos.repositories.IngressoRepository;
 import com.example.sistema_venda_ingressos.repositories.InscricaoRepository;
 import com.example.sistema_venda_ingressos.repositories.UsuarioRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+@Service
 public class InscricaoService {
     
 
@@ -41,10 +43,10 @@ public class InscricaoService {
     public InscricaoResponseDTO inscrever(InscricaoRequestDTO dto) {
 
         UsuarioModel usuario = usuarioRepository.findById(dto.usuarioId())
-            .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o id " + dto.usuarioId()));
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com o id " + dto.usuarioId()));
 
         IngressoModel ingresso = ingressoRepository.findById(dto.ingressoId())
-            .orElseThrow(() -> new EntityNotFoundException("Ingresso não encontrado com o id " + dto.ingressoId()));
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Ingresso não encontrado com o id " + dto.ingressoId()));
 
         // regra 1: não pode se inscrever duas vezes no mesmo evento
         boolean jaInscrito = inscricaoRepository
@@ -80,7 +82,7 @@ public class InscricaoService {
     public InscricaoResponseDTO cancelar(Long id) {
 
         InscricaoModel inscricao = inscricaoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         if (inscricao.getStatus() == StatusInscricao.CANCELADA) {
             throw new RegraDeNegocioException("Esta inscrição já está cancelada");
@@ -101,7 +103,7 @@ public class InscricaoService {
     public InscricaoResponseDTO buscarPorId(Long id) {
 
         InscricaoModel inscricao = inscricaoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         return toResponseDTO(inscricao);
     }

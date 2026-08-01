@@ -4,13 +4,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.example.sistema_venda_ingressos.dtos.UsuarioRequestDTO;
-import com.example.sistema_venda_ingressos.dtos.UsuarioResponseDTO;
+import com.example.sistema_venda_ingressos.exceptions.RecursoNaoEncontradoException;
 import com.example.sistema_venda_ingressos.exceptions.RegraDeNegocioException;
 import com.example.sistema_venda_ingressos.models.UsuarioModel;
+import com.example.sistema_venda_ingressos.models.dtos.UsuarioRequestDTO;
+import com.example.sistema_venda_ingressos.models.dtos.UsuarioResponseDTO;
 import com.example.sistema_venda_ingressos.repositories.UsuarioRepository;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UsuarioService {
@@ -39,7 +38,7 @@ public class UsuarioService {
     public UsuarioResponseDTO buscarPorId(Long id){
 
         UsuarioModel usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         return UsuarioResponseDTO.fromModel(usuario);
     }
@@ -47,7 +46,7 @@ public class UsuarioService {
     public UsuarioResponseDTO buscarPorEmail(String email){
 
         UsuarioModel usuario = usuarioRepository.findByEmail(email)
-            .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o email " + email));
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado com o email " + email));
 
         return UsuarioResponseDTO.fromModel(usuario);
     }
@@ -61,7 +60,7 @@ public class UsuarioService {
     public UsuarioResponseDTO atualizarUsuario(Long id, UsuarioRequestDTO novoUsuario){
 
         UsuarioModel usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         usuario.setNome(novoUsuario.nome());
         usuario.setEmail(novoUsuario.email());
@@ -75,7 +74,7 @@ public class UsuarioService {
     public void deletarUsuario(Long id){
 
         UsuarioModel usuario = usuarioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         usuarioRepository.delete(usuario);
     }

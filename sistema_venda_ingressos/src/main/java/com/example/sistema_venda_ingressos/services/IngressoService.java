@@ -1,21 +1,19 @@
 package com.example.sistema_venda_ingressos.services;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.sistema_venda_ingressos.dtos.IngressoRequestDTO;
-import com.example.sistema_venda_ingressos.dtos.IngressoResponseDTO;
+import com.example.sistema_venda_ingressos.exceptions.RecursoNaoEncontradoException;
 import com.example.sistema_venda_ingressos.exceptions.RegraDeNegocioException;
 import com.example.sistema_venda_ingressos.models.EventoModel;
 import com.example.sistema_venda_ingressos.models.IngressoModel;
+import com.example.sistema_venda_ingressos.models.dtos.IngressoRequestDTO;
+import com.example.sistema_venda_ingressos.models.dtos.IngressoResponseDTO;
 import com.example.sistema_venda_ingressos.repositories.EventoRepository;
 import com.example.sistema_venda_ingressos.repositories.IngressoRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class IngressoService {
@@ -34,7 +32,7 @@ public class IngressoService {
     public IngressoResponseDTO criarIngresso(Long eventoId, IngressoRequestDTO dto) {
 
         EventoModel evento = eventoRepository.findById(eventoId)
-            .orElseThrow(() -> new EntityNotFoundException("Evento não encontrado com o id " + eventoId));
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Evento não encontrado com o id " + eventoId));
 
         boolean jaExiste = ingressoRepository.findByEventoIdAndTipo(eventoId, dto.tipo()).isPresent();
         if (jaExiste) {
@@ -58,7 +56,7 @@ public class IngressoService {
     public IngressoResponseDTO buscarPorId(Long id) {
 
         IngressoModel ingresso = ingressoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         return toResponseDTO(ingresso);
     }
@@ -72,7 +70,7 @@ public class IngressoService {
     public IngressoResponseDTO atualizarIngresso(Long id, IngressoRequestDTO dto) {
 
         IngressoModel ingresso = ingressoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         ingresso.setPreco(dto.preco());
 
@@ -84,7 +82,7 @@ public class IngressoService {
     public void deletarIngresso(Long id) {
 
         IngressoModel ingresso = ingressoRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(MENSAGEM_ERRO + id));
+            .orElseThrow(() -> new RecursoNaoEncontradoException(MENSAGEM_ERRO + id));
 
         ingressoRepository.delete(ingresso);
     }

@@ -1,4 +1,4 @@
-package com.example.sistema_venda_ingressos.dtos;
+package com.example.sistema_venda_ingressos.models.dtos;
 
 import java.time.LocalDateTime;
 
