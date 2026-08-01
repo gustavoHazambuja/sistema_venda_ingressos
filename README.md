@@ -10,7 +10,7 @@ O projeto segue uma arquitetura em camadas (Models, DTOs, Controllers e Services
 
 # Tecnologias utilizadas
 ## Back end
-- Java 25
+- Java
 - Spring Boot
 - Spring Data JPA
 - Bean Validation (Jakarta Validation)
