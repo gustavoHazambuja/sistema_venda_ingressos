@@ -33,11 +33,19 @@ public class InscricaoModel {
     private UsuarioModel usuario;
 
     @ManyToOne
-    @JoinColumn(name = "evento_id")
-    private EventoModel evento;
+    @JoinColumn(name = "ingresso_id")
+    private IngressoModel ingresso;
 
     private LocalDateTime dataInscricao;
 
     @Enumerated(EnumType.STRING)
     private StatusInscricao status;
+
+
+    public InscricaoModel(UsuarioModel usuario, IngressoModel ingresso, LocalDateTime dataInscricao, StatusInscricao status){
+        this.usuario = usuario;
+        this.ingresso = ingresso;
+        this.dataInscricao = dataInscricao;
+        this.status = status;
+    }
 }

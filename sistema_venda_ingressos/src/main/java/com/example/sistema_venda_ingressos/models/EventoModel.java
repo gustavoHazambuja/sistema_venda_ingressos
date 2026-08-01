@@ -33,4 +33,11 @@ public class EventoModel {
 
     @OneToMany(mappedBy = "evento", cascade = CascadeType.ALL)
     private List<IngressoModel> ingressos;
+
+
+    public EventoModel(String nome, String local, LocalDateTime dataEvento){
+        this.nome = nome;
+        this.local = local;
+        this.dataEvento = dataEvento;
+    }
 }

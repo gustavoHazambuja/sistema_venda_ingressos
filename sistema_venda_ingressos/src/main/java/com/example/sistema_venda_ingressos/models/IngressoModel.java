@@ -38,4 +38,20 @@ public class IngressoModel {
     @ManyToOne
     @JoinColumn(name = "evento_id")
     private EventoModel evento;
+
+
+    public IngressoModel(BigDecimal preco, Integer quantidadeTotal, Integer quantidadeDisponivel,TipoIngresso tipo){
+        this.preco = preco;
+        this.quantidadeTotal = quantidadeTotal;
+        this.quantidadeDisponivel = quantidadeDisponivel;
+        this.tipo = tipo;
+    }
+
+     public IngressoModel(BigDecimal preco, Integer quantidadeTotal, Integer quantidadeDisponivel,TipoIngresso tipo, EventoModel evento){
+        this.preco = preco;
+        this.quantidadeTotal = quantidadeTotal;
+        this.quantidadeDisponivel = quantidadeDisponivel;
+        this.tipo = tipo;
+        this.evento = evento;
+    }
 }

@@ -13,6 +13,6 @@ public interface IngressoRepository extends JpaRepository<IngressoModel, Long> {
 
     Optional<IngressoModel> findByEventoIdAndTipo(Long eventoID, TipoIngresso tipo);
 
-    Page<IngressoModel> findByEventoID(Long eventoId, Pageable pageable);
+    Page<IngressoModel> findByEventoId(Long eventoId, Pageable pageable);
     
 }
