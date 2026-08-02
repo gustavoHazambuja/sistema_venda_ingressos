@@ -8,6 +8,12 @@ Nela podemos cadastrar usuários, criar eventos já com seus lotes de ingresso, 
 
 O projeto segue uma arquitetura em camadas (Models, DTOs, Controllers e Services), separando a representação dos dados, a validação de entrada/saída e as regras de negócio de disponibilidade e inscrição.
 
+## Fazendo Inscrição
+![Fazendo Inscrição](https://github.com/gustavoHazambuja/Images/blob/main/Venda_Ingressos/Captura%20de%20tela%202026-08-01%20202158.png)
+
+## Listando Inscrições do Usuário
+![Listando Inscrições](https://github.com/gustavoHazambuja/Images/blob/main/Venda_Ingressos/Captura%20de%20tela%202026-08-01%20202222.png)
+
 # Tecnologias utilizadas
 ## Back end
 - Java
